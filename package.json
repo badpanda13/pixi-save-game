@@ -16,6 +16,7 @@
     "vite": "^5.4.11"
   },
   "dependencies": {
+    "@pixi/spine-pixi": "^2.1.1",
     "howler": "^2.2.4",
     "pixi.js": "^8.5.2"
   }
