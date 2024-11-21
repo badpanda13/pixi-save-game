@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-/*import { loadAssets } from './common/assets'
+import { loadAssets } from './common/assets'
 
 const createScene = () => {
     console.log("create scene");
@@ -9,6 +9,7 @@ const initInteraction = () => {}
 
 export const initGame = () => {
     console.log("initGame");
+  
     loadAssets((progress) => {
       if(progress === 'all'){
          createScene()
@@ -16,9 +17,12 @@ export const initGame = () => {
       }
     })
  
- }*/
- 
+ }
+
+
+ /*
  import { Application, Assets, Sprite  } from 'pixi.js';
+ import appTextures, { allTextureKeys } from './common/textures';
 
 // Asynchronous IIFE
 export const initGame = () => {
@@ -34,10 +38,31 @@ export const initGame = () => {
     document.body.appendChild(app.canvas);
 
      // Load the bunny texture.
-     const texture = await Assets.load('https://pixijs.com/assets/bunny.png');
+   /*  for (const [key, value] of Object.entries(appTextures)) {
+        console.log(`${key}: ${value}`);
+        Assets.add(key, value);
+        console.log("assets end");
+      }*/
+  /*   const textures = new Map();
+     const keys = Object.entries(allTextureKeys).map(([key, value]) => value)
+     let arrayForAsset = [];
+     Object.entries(appTextures).forEach(([key, value]) => {
+        textures.set(key, value)
+    })
 
+    const textures2 = await Assets.load(textures);
+     const texture = await Assets.load('assets/sprites/enemy/shipBlue.png');
+     const textures1 = await Assets.load([
+        {
+            alias: 'shipBlue',
+            src: 'assets/sprites/enemy/shipBlue.png',
+        },
+        {
+            alias: 'shipBlue2',
+            src: 'assets/sprites/enemy/shipBlue2.png',
+        }])
      // Create a new Sprite from an image path
-     const bunny = new Sprite(texture);
+     const bunny = new Sprite(textures2['shipBlue']);
  
      // Add to stage
      app.stage.addChild(bunny);
@@ -53,13 +78,8 @@ export const initGame = () => {
     // Add an animation loop callback to the application's ticker.
     app.ticker.add((time) =>
         {
-            /**
-             * Just for fun, let's rotate mr rabbit a little.
-             * Time is a Ticker object which holds time related data.
-             * Here we use deltaTime, which is the time elapsed between the frame callbacks
-             * to create frame-independent transformation. Keeping the speed consistent.
-             */
+           
             bunny.rotation += 0.1 * time.deltaTime;
         });
 })();
-}
+} */
