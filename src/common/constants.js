@@ -6,10 +6,17 @@ const appConstants = {
     containers: {
         player: 'player',
         bullets: 'bullets',
+        people: 'people',
+        enemies: 'enemies',
+        bombs: 'bombs',
     },
     timeouts: {
         playerLock: 2000,
         playerShoots: 1000,
+    },
+    probability: {
+        enemyChangeDirection: 1,
+        bomb: 3,
     }
 }
 
