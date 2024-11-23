@@ -7,7 +7,7 @@ import { initBullets, bulletTick, destroyBullet } from './sprite/bullets';
 import { initPeople, peopleTick, restorePeople, destroyPerson} from './sprite/people'
 import { initEnemies, addEnemy, enemyTick, destroyEmeny} from './sprite/enemy'
 import { bombTick, destroyBomb, initBombs } from './sprite/bombs'
-import { checkCollision } from "./common/utils";
+import { checkCollision, destroySprite } from "./common/utils";
 import { initExplosions , explostionTick} from './sprite/explosions';
 
 const WIDTH = appConstants.size.WIDTH;
@@ -71,23 +71,35 @@ const checkAllCollisions = () => {
     const player = rootContainer.getChildByName(appConstants.containers.player);
 
     if(enemies && bullets){
+        const toRemove = [];
         bullets.children.forEach( (b) => {
             enemies.children.forEach( (e) => {
-                if(checkCollision(e,b)){
-                    destroyBullet(b);
-                    destroyEmeny(e);
+                if(e && b){
+                    if(checkCollision(e,b)){
+                        toRemove.push(b);
+                        toRemove.push(e);
+                    }
                 }
             })
         })
+        toRemove.forEach( (sprite) => {
+            sprite.destroyMe();
+        })
     }
     if(bombs && bullets){
+        const toRemove = [];
         bullets.children.forEach( (b) => {
             bombs.children.forEach( (e) => {
+                if(e && b){
                 if(checkCollision(e,b)){
-                    destroyBullet(b);
-                    destroyBomb(e);
+                    toRemove.push(b);
+                    toRemove.push(e);
+                }
                 }
             })
+        })
+        toRemove.forEach( (sprite) => {
+            sprite.destroyMe();
         })
     }
     if(bombs && player && !player.locked){
@@ -98,35 +110,29 @@ const checkAllCollisions = () => {
                     lockPlayer();
                 }
             })
-        toRemove.forEach( (b) => {
-            destroyBomb(b);
+        toRemove.forEach( (sprite) => {
+            sprite.destroyMe();
         })
         
     }
     if(bombs && people){
-        const toRemoveBombs = [];
-        const toRemovePeople = [];
+        const toRemove = [];
         bombs.children.forEach( (b) => {
             people.children.forEach( (p) => {
                 if(b && p){
                     if(checkCollision(p,b)){
-                        if(toRemovePeople.indexOf(p) === -1){
-                            console.log("person");
-                            toRemovePeople.push(p);
+                        if(toRemove.indexOf(p) === -1){
+                            toRemove.push(p);
                         }
-                        if(toRemoveBombs.indexOf(b) === -1){
-                            console.log("bomb");
-                            toRemoveBombs.push(b);
+                        if(toRemove.indexOf(b) === -1){
+                            toRemove.push(b);
                         }
                     }
                 }
             })   
         })
-        toRemoveBombs.forEach( (b) => {
-            destroyBomb(b);
-        })
-        toRemovePeople.forEach( (p) => {
-            destroyPerson(p);
+        toRemove.forEach( (b) => {
+            b.destroyMe();
         })
     }
 }

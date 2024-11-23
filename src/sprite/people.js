@@ -2,7 +2,7 @@ import { Container, Sprite } from "pixi.js";
 import { getTexture } from "../common/assets";
 import appConstants from "../common/constants.JS";
 import { allTextureKeys } from "../common/textures";
-import { randomIntFromInterval } from "../common/utils";
+import { destroySprite, randomIntFromInterval } from "../common/utils";
 
 let app;
 let rootContainer;
@@ -10,6 +10,30 @@ let people;
 let aliveCoords = [];
 let peopleFrames = null;
 let tombStoneFrames = null;
+
+export const destroyPerson = (p) => {
+    const pos = {x: p.position.x, y: p.position.y};
+
+    if(p.alive ){
+        const frameName = tombStoneFrames[randomIntFromInterval(0, tombStoneFrames.length-1)];
+        const tombStone = new Sprite(frameName);
+        tombStone.anchor.set(0.5, 1);
+        tombStone.alive = false;
+        tombStone.name = p.name;
+        tombStone.position.x = pos.x;
+        tombStone.position.y = y + 100 ;
+        tombStone.destroyMe = function(){
+            destroyPerson(this);
+          }
+        people.removeChild(p);
+        p.destroy({children: true});
+        people.addChild(tombStone);
+        recalculateAlivePeople();
+
+    } else {
+        destroySprite(p);
+    }
+};
 
 export const initPeople = (currApp, root) => {
     if (!peopleFrames) {
@@ -50,8 +74,7 @@ export const initPeople = (currApp, root) => {
         })
 
         toRemove.forEach((p)=>{
-            people.removeChild(p);
-            p.destroy({children:true});
+            destroySprite(p);
         })
 
         let i = 0;
@@ -63,6 +86,9 @@ export const initPeople = (currApp, root) => {
             man.alive = true;
             man.position.x = x;
             man.position.y = y;
+            man.destroyMe = function(){
+                destroyPerson(this);
+              }
             x += man.width + 10;
             people.addChild(man);
             i++
@@ -70,27 +96,6 @@ export const initPeople = (currApp, root) => {
           recalculateAlivePeople();
     }
 
-    export const destroyPerson = (p) => {
-        const pos = {x: p.position.x, y: p.position.y};
-
-        if(p.alive ){
-            const frameName = tombStoneFrames[randomIntFromInterval(0, tombStoneFrames.length-1)];
-            const tombStone = new Sprite(frameName);
-            tombStone.anchor.set(0.5, 1);
-            tombStone.alive = false;
-            tombStone.name = p.name;
-            tombStone.position.x = pos.x;
-            tombStone.position.y = y + 100 ;
-            people.removeChild(p);
-            p.destroy({children: true});
-            people.addChild(tombStone);
-            recalculateAlivePeople();
-
-        } else {
-            people.removeChild(p);
-            p.destroy({children: true});
-        }
-    };
 
     export const getAlivePeople = () => {
         return [...aliveCoords];

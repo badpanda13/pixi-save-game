@@ -3,13 +3,21 @@ import { allTextureKeys } from "../common/textures";
 import { getTexture } from "../common/assets";
 import { Container, AnimatedSprite } from "pixi.js";
 import appConstants from "../common/constants.JS";
-import { randomIntFromInterval } from "../common/utils";
+import { destroySprite, randomIntFromInterval } from "../common/utils";
 import { addBomb } from "./bombs";
 import { addExplosion} from '../sprite/explosions';
 
 let enemies;
 let app;
 let rootContainer;
+
+export const destroyEmeny = (enemy) => {
+  addExplosion({x: enemy.position.x, y: enemy.position.y });
+  destroySprite(enemy);
+  setTimeout(() => {
+    addEnemy();
+  }, 1000);
+};
 
 export const initEnemies = (currApp, root) => {
   enemies = new Container();
@@ -32,6 +40,9 @@ export const addEnemy = () => {
   enemy.y = 80;
   enemy.scale.set(0.5)
 
+  enemy.destroyMe = function(){
+    destroyEmeny(this);
+  }
   enemy.animationSpeed = 0.1;
   enemy.customData = {
     left: true,
@@ -41,14 +52,6 @@ export const addEnemy = () => {
   return enemy;
 };
 
-export const destroyEmeny = (enemy) => {
-  addExplosion({x: enemy.position.x, y: enemy.position.y });
-  enemies.removeChild(enemy);
-  enemy.destroy({ children: true });
-  setTimeout(() => {
-    addEnemy();
-  }, 1000);
-};
 
 export const enemyTick = () => {
   const allAlive = getAlivePeople();

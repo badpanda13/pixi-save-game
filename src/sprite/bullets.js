@@ -1,6 +1,7 @@
 import { AnimatedSprite, Texture, Container } from 'pixi.js';
 import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
 import appConstants from '../common/constants.JS';
+import { destroySprite } from '../common/utils';
 
 let app
 let bullets
@@ -12,6 +13,10 @@ const bulletSpeed = 1
 
 const allTextures = {}
 
+export const destroyBullet = (bullet) => {
+    destroySprite(bullet);
+} 
+
 export const initBullets = ( currApp, root) => {
     bullets = new Container()
     bullets.name = appConstants.containers.bullets,
@@ -21,8 +26,7 @@ export const initBullets = ( currApp, root) => {
 
 export const clearBullets = () => {
     bullets.children.forEach((b) => {
-        bullets.removeChild(b)
-        b.destroy({children: true})
+        destroySprite(b);
     }) 
 }
 
@@ -60,6 +64,9 @@ export const addBullet = (coord) => {
     bullet.animationSpeed = 0.2
     bullet.anchor.set(0.5)
     bullet.position.set(coord.x, coord.y - 10)
+    bullet.destroyMe = function(){
+        destroyBullet(this);
+      }
     bullets.addChild(bullet)
     bullet.play()
     //sound play 
@@ -68,12 +75,6 @@ export const addBullet = (coord) => {
         timeout = null
     }, appConstants.timeouts.playerShoots)
 }
-
-export const destroyBullet = (bullet) => {
-    bullets.removeChild(bullet)
-    bullet.destroy({children: true})
-    //add explosion BOOM
-} 
 
 
 export const bulletTick = () => {
@@ -85,7 +86,6 @@ export const bulletTick = () => {
         }
     })
     toRemove.forEach((b) => {
-        bullets.removeChild(b)
-        b.destroy({children: true})
+        destroySprite(b);
     })
 }
