@@ -2,15 +2,17 @@ import * as PIXI from 'pixi.js'
 import { loadAssets } from './common/assets'
 import 'constants'
 import appConstants from './common/constants.JS'
-import { addPlayer, getPlayer, playerShoots, playerTick } from './sprite/player';
-import { initBullets, bulletTick } from './sprite/bullets';
-import { initPeople, peopleTick, restorePeople, } from './sprite/people'
-import { initEnemies, addEnemy, enemyTick} from './sprite/enemy'
-import { bombTick, initBombs } from './sprite/bombs'
+import { addPlayer, getPlayer, lockPlayer, playerShoots, playerTick } from './sprite/player';
+import { initBullets, bulletTick, destroyBullet } from './sprite/bullets';
+import { initPeople, peopleTick, restorePeople, destroyPerson} from './sprite/people'
+import { initEnemies, addEnemy, enemyTick, destroyEmeny} from './sprite/enemy'
+import { bombTick, destroyBomb, initBombs } from './sprite/bombs'
+import { checkCollision } from "./common/utils";
 
 const WIDTH = appConstants.size.WIDTH;
 const HEIGHT = appConstants.size.HEIGHT;
-
+let rootContainer;
+ 
 const gameState = {
     stopped: false,
     moveLeftActive: false,
@@ -31,7 +33,7 @@ const createScene = async () => {
     document.body.appendChild(app.canvas);
     gameState.app = app;
 
-    const rootContainer = app.stage;
+    rootContainer = app.stage;
     rootContainer.interactive = true;
     rootContainer.hitArea = app.screen;
    
@@ -57,6 +59,74 @@ const createScene = async () => {
     return app;
 }
 
+const checkAllCollisions = () => {
+    const enemies = rootContainer.getChildByName(appConstants.containers.enemies);
+    const bullets = rootContainer.getChildByName(appConstants.containers.bullets);
+    const people = rootContainer.getChildByName(appConstants.containers.people);
+    const bombs = rootContainer.getChildByName(appConstants.containers.bomb);
+    const player = rootContainer.getChildByName(appConstants.containers.player);
+
+    if(enemies && bullets){
+        bullets.children.forEach( (b) => {
+            enemies.children.forEach( (e) => {
+                if(checkCollision(e,b)){
+                    destroyBullet(b);
+                    destroyEmeny(e);
+                }
+            })
+        })
+    }
+    if(bombs && bullets){
+        bullets.children.forEach( (b) => {
+            bombs.children.forEach( (e) => {
+                if(checkCollision(e,b)){
+                    destroyBullet(b);
+                    destroyBomb(e);
+                }
+            })
+        })
+    }
+    if(bombs && player && !player.locked){
+        const toRemove = [];
+        bombs.children.forEach( (b) => {
+                if(checkCollision(b, player)){
+                    toRemove.push(b);
+                    lockPlayer();
+                }
+            })
+        toRemove.forEach( (b) => {
+            destroyBomb(b);
+        })
+        
+    }
+    if(bombs && people){
+        const toRemoveBombs = [];
+        const toRemovePeople = [];
+        bombs.children.forEach( (b) => {
+            people.children.forEach( (p) => {
+                if(b && p){
+                    if(checkCollision(p,b)){
+                        if(toRemovePeople.indexOf(p) === -1){
+                            console.log("person");
+                            toRemovePeople.push(p);
+                        }
+                        if(toRemoveBombs.indexOf(b) === -1){
+                            console.log("bomb");
+                            toRemoveBombs.push(b);
+                        }
+                    }
+                }
+            })   
+        })
+        toRemoveBombs.forEach( (b) => {
+            destroyBomb(b);
+        })
+        toRemovePeople.forEach( (p) => {
+            destroyPerson(p);
+        })
+    }
+}
+
 const initInteraction = () => {
     let player = getPlayer();
     console.log(player);
@@ -78,6 +148,7 @@ const initInteraction = () => {
         peopleTick();
         enemyTick();
         bombTick();
+        checkAllCollisions();
     })
 }
 

@@ -28,7 +28,7 @@ export const addPlayer = (currApp, root) => {
 export const getPlayer = () => player
 
 export const lockPlayer = () => {
-    if(lockPlayer){
+    if(lockTimeout){
         return
     }
     player.locked = true;
@@ -45,7 +45,7 @@ export const playerShoots = () => {
 }
 
 export const playerTick = (state) => {
-    if(lockPlayer){
+    if(lockTimeout){
         player.alpha = 0.5;
     } else {
         player.alpha = 1;

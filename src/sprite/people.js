@@ -84,7 +84,7 @@ export const initPeople = (currApp, root) => {
             people.removeChild(p);
             p.destroy({children: true});
             people.addChild(tombStone);
-            recalculatedAlivePeople();
+            recalculateAlivePeople();
 
         } else {
             people.removeChild(p);
@@ -107,7 +107,7 @@ export const initPeople = (currApp, root) => {
     export const peopleTick = () => {
         people.children.forEach( (p) => {
             if(p.position.y > y){
-                p.position.y -= i;
+                p.position.y -= 1;
             }
         })
     }

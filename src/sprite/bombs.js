@@ -29,6 +29,11 @@ export const clearBombs = () => {
     });
 }
 
+export const destroyBomb = (bomb) => {
+    bombs.removeChild(bomb);
+    bomb.destroy({children: true});
+}
+
 export const addBomb = (coord) => {
     const bomb = new Sprite(getTexture(allTextureKeys.bomb));
     bomb.anchor.set(0.5);
