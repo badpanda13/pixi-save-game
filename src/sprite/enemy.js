@@ -5,6 +5,7 @@ import { Container, AnimatedSprite } from "pixi.js";
 import appConstants from "../common/constants.JS";
 import { randomIntFromInterval } from "../common/utils";
 import { addBomb } from "./bombs";
+import { addExplosion} from '../sprite/explosions';
 
 let enemies;
 let app;
@@ -41,6 +42,7 @@ export const addEnemy = () => {
 };
 
 export const destroyEmeny = (enemy) => {
+  addExplosion({x: enemy.position.x, y: enemy.position.y });
   enemies.removeChild(enemy);
   enemy.destroy({ children: true });
   setTimeout(() => {

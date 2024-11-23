@@ -74,7 +74,7 @@ export const initPeople = (currApp, root) => {
         const pos = {x: p.position.x, y: p.position.y};
 
         if(p.alive ){
-            const frameName = tombStoneFrames[randomIntFromInterval(0, tombStoneFrames,length)];
+            const frameName = tombStoneFrames[randomIntFromInterval(0, tombStoneFrames.length-1)];
             const tombStone = new Sprite(frameName);
             tombStone.anchor.set(0.5, 1);
             tombStone.alive = false;

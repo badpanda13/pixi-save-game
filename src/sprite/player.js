@@ -3,7 +3,7 @@ import { getTexture } from '../common/assets'
 import appConstants from '../common/constants.JS'
 import { allTextureKeys } from '../common/textures'
 import { addBullet } from './bullets'
-//import { addBullet } from './bullets'
+
 
 let player
 let app

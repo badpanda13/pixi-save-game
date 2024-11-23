@@ -2,6 +2,7 @@ import { Container, Sprite } from "pixi.js";
 import { getTexture } from "../common/assets";
 import appConstants from "../common/constants.JS";
 import { allTextureKeys } from "../common/textures";
+import { addExplosion } from "./explosions";
 
 let app;
 let bombs;
@@ -30,6 +31,7 @@ export const clearBombs = () => {
 }
 
 export const destroyBomb = (bomb) => {
+    addExplosion({x: bomb.position.x, y: bomb.position.y + 20});
     bombs.removeChild(bomb);
     bomb.destroy({children: true});
 }

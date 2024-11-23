@@ -8,6 +8,7 @@ import { initPeople, peopleTick, restorePeople, destroyPerson} from './sprite/pe
 import { initEnemies, addEnemy, enemyTick, destroyEmeny} from './sprite/enemy'
 import { bombTick, destroyBomb, initBombs } from './sprite/bombs'
 import { checkCollision } from "./common/utils";
+import { initExplosions , explostionTick} from './sprite/explosions';
 
 const WIDTH = appConstants.size.WIDTH;
 const HEIGHT = appConstants.size.HEIGHT;
@@ -54,6 +55,9 @@ const createScene = async () => {
 
     const bombs = initBombs(app, rootContainer);
     rootContainer.addChild(bombs);
+
+    initExplosions(app, rootContainer);
+
 
     console.log("end create scene");
     return app;
@@ -148,6 +152,7 @@ const initInteraction = () => {
         peopleTick();
         enemyTick();
         bombTick();
+        explostionTick();
         checkAllCollisions();
     })
 }
