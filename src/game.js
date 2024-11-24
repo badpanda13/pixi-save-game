@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js'
 import { loadAssets } from './common/assets'
-import 'constants'
 import appConstants from './common/constants.JS'
 import { addPlayer, getPlayer, lockPlayer, playerShoots, playerTick } from './sprite/player';
 import { initBullets, bulletTick, destroyBullet } from './sprite/bullets';
@@ -11,6 +10,7 @@ import { checkCollision, destroySprite } from "./common/utils";
 import {EventHub} from './common/eventHub'; 
 import { initExplosions , explostionTick} from './sprite/explosions';
 import { initInfo } from './sprite/infoPanel';
+import { play } from './common/sound';
 
 const WIDTH = appConstants.size.WIDTH;
 const HEIGHT = appConstants.size.HEIGHT;
@@ -61,6 +61,7 @@ const createScene = async () => {
     initExplosions(app, rootContainer);
 
     initInfo(app, rootContainer);
+    
     console.log("end create scene");
     return app;
 }
@@ -77,7 +78,9 @@ const checkAllCollisions = () => {
         bullets.children.forEach( (b) => {
             enemies.children.forEach( (e) => {
                 if(e && b){
+                    
                     if(checkCollision(e,b)){
+                        play(appConstants.sounds.explosion);
                         toRemove.push(b);
                         toRemove.push(e);
                     }
@@ -93,7 +96,9 @@ const checkAllCollisions = () => {
         bullets.children.forEach( (b) => {
             bombs.children.forEach( (e) => {
                 if(e && b){
+                    
                 if(checkCollision(e,b)){
+                    play(appConstants.sounds.explosion);
                     toRemove.push(b);
                     toRemove.push(e);
                 }
@@ -108,6 +113,7 @@ const checkAllCollisions = () => {
         const toRemove = [];
         bombs.children.forEach( (b) => {
                 if(checkCollision(b, player)){
+                    play(appConstants.sounds.explosion);
                     toRemove.push(b);
                     lockPlayer();
                 }
@@ -123,6 +129,7 @@ const checkAllCollisions = () => {
             people.children.forEach( (p) => {
                 if(b && p){
                     if(checkCollision(p,b)){
+                        play(appConstants.sounds.explosion);
                         if(toRemove.indexOf(p) === -1){
                             toRemove.push(p);
                         }
@@ -151,6 +158,7 @@ const initInteraction = () => {
     document.addEventListener("keydown", (e) => {
         if(e.code === 'Space'){
             playerShoots();
+            play(appConstants.sounds.shot);
         }
     })
 
@@ -185,24 +193,24 @@ export const initGame = () => {
   
   EventHub.on(appConstants.events.youWin, () => {
     gameState.app.ticker.stop()
-    rootContainer.addChild(getYouWin())
+   // rootContainer.addChild(getYouWin())
     setTimeout(() => play(appConstants.sounds.youWin), 1000)
   })
   
   EventHub.on(appConstants.events.gameOver, () => {
     gameState.app.ticker.stop()
-    rootContainer.addChild(getGameOver())
+   // rootContainer.addChild(getGameOver())
     setTimeout(() => play(appConstants.sounds.gameOver), 1000)
   })
   
   EventHub.on(appConstants.events.restartGame, (event) => {
     restartGame()
     if(event === appConstants.events.gameOver){
-      rootContainer.removeChild(getGameOver())
+    //  rootContainer.removeChild(getGameOver())
   
     }
     if(event === appConstants.events.youWin){
-      rootContainer.removeChild(getYouWin())
+      //rootContainer.removeChild(getYouWin())
     }
     gameState.app.ticker.start()
   })

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@pixi/filter-color-matrix": "^7.4.2",
+    "@pixi/graphics-smooth": "^1.1.0",
     "@pixi/spine-pixi": "^2.1.1",
     "eventemitter3": "^5.0.1",
     "howler": "^2.2.4",

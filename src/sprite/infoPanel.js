@@ -2,7 +2,7 @@ import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js";
 import { getTexture } from "../common/assets";
 import appConstants from "../common/constants.JS";
 import { EventHub, gameOver, youWin } from "../common/eventHub";
-//import { muteEffects, pause, play, unMuteEffects } from "../common/sound";
+import { muteEffects, pause, play, unMuteEffects } from "../common/sound";
 import appTextures, { allTextureKeys } from "../common/textures";
 
 let info;
@@ -31,8 +31,6 @@ gradient.addColorStop(1, '#00ff99');
 context.fillStyle = gradient; 
 context.fillRect(0, 0, 100, 100); 
 const texture = Texture.from(canvas);
-
-
 
 const style = new TextStyle({
   fontFamily: "Arial",
@@ -126,9 +124,9 @@ export const initInfo = (currApp, root) => {
 
   musicOff = new Sprite(musicOffStatus ? musicOffTexture : musicOnTexture);
   if (musicOffStatus) {
-   // pause(appConstants.sounds.background)
+    pause(appConstants.sounds.background)
   } else {
-   //   play(appConstants.sounds.background)
+      play(appConstants.sounds.background)
   }
 
   musicOff.x = -9;
@@ -140,9 +138,9 @@ export const initInfo = (currApp, root) => {
     musicOffStatus = !musicOffStatus;
     musicOff.texture = musicOffStatus ? musicOffTexture : musicOnTexture;
     if (musicOffStatus) {
-     // pause(appConstants.sounds.background)
+      pause(appConstants.sounds.background)
     } else {
-       // play(appConstants.sounds.background)
+        play(appConstants.sounds.background)
     }
   });
   info.addChild(musicButton);
@@ -151,7 +149,7 @@ export const initInfo = (currApp, root) => {
   const effectsButton = new Container();
   effectsButton.x = appConstants.size.WIDTH - 100;
   effectsButton.y = 200;
-  effectsButton.name = "musicButton";
+  effectsButton.name = "effectButton";
 
   const graphicsEffectsOff = new Graphics();
   graphicsEffectsOff.lineStyle(2, 0xff00ff, 1);
@@ -162,9 +160,9 @@ export const initInfo = (currApp, root) => {
 
   effectsOff = new Sprite(effectsOffStatus ? effectsOffTexture : effectsOnTexture);
   if (effectsOffStatus) {
-    //muteEffects()
+    muteEffects()
   } else {
-   // unMuteEffects()
+    unMuteEffects()
   }
 
   effectsOff.x = -9;
@@ -176,9 +174,9 @@ export const initInfo = (currApp, root) => {
     effectsOffStatus = !effectsOffStatus;
     effectsOff.texture = effectsOffStatus ? effectsOffTexture : effectsOnTexture
     if (effectsOffStatus) {
-      //  muteEffects()
+        muteEffects()
       } else {
-       // unMuteEffects()
+        unMuteEffects()
       }
   });
   info.addChild(effectsButton);
