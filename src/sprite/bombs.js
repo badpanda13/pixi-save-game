@@ -4,6 +4,7 @@ import appConstants from "../common/constants.JS";
 import { allTextureKeys } from "../common/textures";
 import { addExplosion } from "./explosions";
 import { destroySprite } from "../common/utils";
+import { bombDestroyed } from "../common/eventHub";
 
 let app;
 let bombs;
@@ -13,6 +14,7 @@ const bombSpeed = 1;
 
 export const destroyBomb = (bomb) => {
     addExplosion({x: bomb.position.x, y: bomb.position.y + 20});
+    bombDestroyed();
     destroySprite(bomb);
 }
 

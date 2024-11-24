@@ -6,6 +6,7 @@ export default defineConfig({
     target: "es2017",
     outDir: "build",
   },
+  optimizeDeps: { include: ['pixi.js'], },
   server: {
     port: 3000,
     host: "0.0.0.0",

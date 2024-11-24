@@ -6,6 +6,7 @@ import appConstants from "../common/constants.JS";
 import { destroySprite, randomIntFromInterval } from "../common/utils";
 import { addBomb } from "./bombs";
 import { addExplosion} from '../sprite/explosions';
+import { ufoDestroyed } from "../common/eventHub";
 
 let enemies;
 let app;
@@ -14,6 +15,7 @@ let rootContainer;
 export const destroyEmeny = (enemy) => {
   addExplosion({x: enemy.position.x, y: enemy.position.y });
   destroySprite(enemy);
+  ufoDestroyed();
   setTimeout(() => {
     addEnemy();
   }, 1000);

@@ -8,7 +8,9 @@ import { initPeople, peopleTick, restorePeople, destroyPerson} from './sprite/pe
 import { initEnemies, addEnemy, enemyTick, destroyEmeny} from './sprite/enemy'
 import { bombTick, destroyBomb, initBombs } from './sprite/bombs'
 import { checkCollision, destroySprite } from "./common/utils";
+import {EventHub} from './common/eventHub'; 
 import { initExplosions , explostionTick} from './sprite/explosions';
+import { initInfo } from './sprite/infoPanel';
 
 const WIDTH = appConstants.size.WIDTH;
 const HEIGHT = appConstants.size.HEIGHT;
@@ -58,7 +60,7 @@ const createScene = async () => {
 
     initExplosions(app, rootContainer);
 
-
+    initInfo(app, rootContainer);
     console.log("end create scene");
     return app;
 }
@@ -174,3 +176,33 @@ export const initGame = () => {
     })
  
  }
+
+ const restartGame = () => {
+    clearBombs()
+    clearBullets()
+    restorePeople()
+  }
+  
+  EventHub.on(appConstants.events.youWin, () => {
+    gameState.app.ticker.stop()
+    rootContainer.addChild(getYouWin())
+    setTimeout(() => play(appConstants.sounds.youWin), 1000)
+  })
+  
+  EventHub.on(appConstants.events.gameOver, () => {
+    gameState.app.ticker.stop()
+    rootContainer.addChild(getGameOver())
+    setTimeout(() => play(appConstants.sounds.gameOver), 1000)
+  })
+  
+  EventHub.on(appConstants.events.restartGame, (event) => {
+    restartGame()
+    if(event === appConstants.events.gameOver){
+      rootContainer.removeChild(getGameOver())
+  
+    }
+    if(event === appConstants.events.youWin){
+      rootContainer.removeChild(getYouWin())
+    }
+    gameState.app.ticker.start()
+  })

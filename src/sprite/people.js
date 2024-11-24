@@ -3,6 +3,7 @@ import { getTexture } from "../common/assets";
 import appConstants from "../common/constants.JS";
 import { allTextureKeys } from "../common/textures";
 import { destroySprite, randomIntFromInterval } from "../common/utils";
+import { manKilled } from "../common/eventHub";
 
 let app;
 let rootContainer;
@@ -25,9 +26,9 @@ export const destroyPerson = (p) => {
         tombStone.destroyMe = function(){
             destroyPerson(this);
           }
-        people.removeChild(p);
-        p.destroy({children: true});
+        destroySprite(p);
         people.addChild(tombStone);
+        manKilled();
         recalculateAlivePeople();
 
     } else {
