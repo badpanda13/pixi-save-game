@@ -11,6 +11,7 @@ import {EventHub} from './common/eventHub';
 import { initExplosions , explostionTick} from './sprite/explosions';
 import { initInfo } from './sprite/infoPanel';
 import { play } from './common/sound';
+import { getGameOver, getYouWin} from './common/messages'
 
 const WIDTH = appConstants.size.WIDTH;
 const HEIGHT = appConstants.size.HEIGHT;
@@ -193,24 +194,24 @@ export const initGame = () => {
   
   EventHub.on(appConstants.events.youWin, () => {
     gameState.app.ticker.stop()
-   // rootContainer.addChild(getYouWin())
+    rootContainer.addChild(getYouWin())
     setTimeout(() => play(appConstants.sounds.youWin), 1000)
   })
   
   EventHub.on(appConstants.events.gameOver, () => {
     gameState.app.ticker.stop()
-   // rootContainer.addChild(getGameOver())
+    rootContainer.addChild(getGameOver())
     setTimeout(() => play(appConstants.sounds.gameOver), 1000)
   })
   
   EventHub.on(appConstants.events.restartGame, (event) => {
     restartGame()
     if(event === appConstants.events.gameOver){
-    //  rootContainer.removeChild(getGameOver())
+      rootContainer.removeChild(getGameOver())
   
     }
     if(event === appConstants.events.youWin){
-      //rootContainer.removeChild(getYouWin())
+      rootContainer.removeChild(getYouWin())
     }
     gameState.app.ticker.start()
   })
