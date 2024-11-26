@@ -2,7 +2,7 @@ import { getAlivePeople, getRandomAlivePersone } from "./people";
 import { allTextureKeys } from "../common/textures";
 import { getTexture } from "../common/assets";
 import { Container, AnimatedSprite } from "pixi.js";
-import appConstants from "../common/constants.JS";
+import appConstants from "../common/projectConstants";
 import { destroySprite, randomIntFromInterval } from "../common/utils";
 import { addBomb } from "./bombs";
 import { addExplosion} from '../sprite/explosions';

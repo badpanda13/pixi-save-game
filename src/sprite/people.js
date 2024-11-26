@@ -1,6 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { getTexture } from "../common/assets";
-import appConstants from "../common/constants.JS";
+import appConstants from "../common/projectConstants";
 import { allTextureKeys } from "../common/textures";
 import { destroySprite, randomIntFromInterval } from "../common/utils";
 import { manKilled } from "../common/eventHub";

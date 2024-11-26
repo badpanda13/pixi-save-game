@@ -1,6 +1,6 @@
 import { AnimatedSprite, Texture, Container } from 'pixi.js';
 import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
-import appConstants from '../common/constants.JS';
+import appConstants from "../common/projectConstants";
 import { destroySprite } from '../common/utils';
 
 let app

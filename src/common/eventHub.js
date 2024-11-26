@@ -1,6 +1,5 @@
 import EventEmitter from 'eventemitter3'
-import appConstants from './constants.JS'
-
+import appConstants from "../common/projectConstants";
 
 //export const EventHub = new utils.EventEmitter()
 export const EventHub = new EventEmitter();

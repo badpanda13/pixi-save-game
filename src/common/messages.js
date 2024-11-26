@@ -1,5 +1,5 @@
 import { Container, Graphics, Text, TextStyle , Texture} from "pixi.js";
-import appConstants from "./constants.JS";
+import appConstants from "../common/projectConstants";
 import { restartGame } from "../common/eventHub";
 
 

@@ -1,6 +1,6 @@
 import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js";
 import { getTexture } from "../common/assets";
-import appConstants from "../common/constants.JS";
+import appConstants from "../common/projectConstants";
 import { EventHub, gameOver, youWin } from "../common/eventHub";
 import { muteEffects, pause, play, unMuteEffects } from "../common/sound";
 import appTextures, { allTextureKeys } from "../common/textures";

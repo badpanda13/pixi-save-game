@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { loadAssets } from './common/assets'
-import appConstants from './common/constants.JS'
+import appConstants from './common/projectConstants';
 import { addPlayer, getPlayer, lockPlayer, playerShoots, playerTick } from './sprite/player';
 import { initBullets, bulletTick, destroyBullet } from './sprite/bullets';
 import { initPeople, peopleTick, restorePeople, destroyPerson} from './sprite/people'

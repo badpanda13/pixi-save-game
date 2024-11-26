@@ -1,5 +1,5 @@
 import { AnimatedSprite, Container, Sprite, Texture } from "pixi.js"
-import appConstants from "../common/constants.JS"
+import appConstants from "../common/projectConstants";
 import { randomIntFromInterval } from "../common/utils"
 
 

@@ -1,5 +1,5 @@
 import { Howl } from "howler"
-import appConstants from "./constants.JS"
+import appConstants from "../common/projectConstants";
 
 const allSounds = {}
 
